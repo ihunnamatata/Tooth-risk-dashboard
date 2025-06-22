@@ -5,7 +5,8 @@
   <title>Tooth-by-Tooth Risk Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/style.css" />
-  <style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
     body {
       font-family: "Segoe UI", sans-serif;
       background-color: #f9f9f9;
@@ -219,7 +220,7 @@
         gptOutput.innerText = "Please select a tooth first to see AI-generated risk explanation.";
       }
     });
-
+<canvas id="riskChart" width="800" height="400" style="margin: 2em auto; display: block;"></canvas>
     exportBtn.addEventListener('click', () => {
       const filename = "tooth_risk_report.json";
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allToothData, null, 2));
@@ -231,5 +232,42 @@
       document.body.removeChild(downloadAnchor);
     });
   </script>
+  function renderRiskChart(toothData) {
+  const ctx = document.getElementById('riskChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: toothData.map(tooth => `Tooth ${tooth.id}`),
+      datasets: [{
+        label: 'AI Risk Score',
+        data: toothData.map(tooth => tooth.risk),
+        backgroundColor: 'rgba(239, 35, 60, 0.7)',
+        borderColor: 'rgba(239, 35, 60, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Tooth-by-Tooth AI Risk Chart'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100
+        }
+      }
+    }
+  });
+}
+
+// Auto-render on load
+window.onload = () => {
+  renderRiskChart(allToothData);
+};
 </body>
 </html>
