@@ -1,109 +1,120 @@
-/* Import fun cursive font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,500&display=swap');
 
 body {
-  margin: 0;
-  font-family: 'Pacifico', cursive;
-  background: url('20C5E715-3025-482B-90DF-7F77BC99DD08.png') no-repeat center center fixed;
+  font-family: 'Playfair Display', cursive;
+  background: url("20C5E715-3025-482B-90DF-7F77BC99DD08.png") no-repeat center center fixed;
   background-size: cover;
-  background-blend-mode: lighten;
-  background-color: rgba(255, 240, 240, 0.7);
-  color: #600000;
+  margin: 0;
+  padding: 0;
+  color: #330000;
 }
 
-.container {
-  background-color: rgba(255, 255, 255, 0.85);
-  padding: 2rem;
-  margin: 2rem auto;
-  border-radius: 15px;
-  max-width: 960px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
-h1 {
+header {
+  background-color: #900C3F;
+  color: #fff;
+  padding: 1em;
   text-align: center;
-  font-size: 2.5rem;
-  color: #b30000;
-  margin-bottom: 1rem;
-}
-
-p {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #7a0000;
+  font-size: 2em;
 }
 
 nav {
-  background-color: rgba(255, 200, 200, 0.85);
-  padding: 1rem;
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  font-weight: bold;
-  border-bottom: 3px solid #ff6666;
+  flex-wrap: wrap;
+  gap: 1.5em;
+  background-color: #d8d8d8;
+  padding: 0.8em;
 }
 
 nav a {
-  color: #b30000;
+  color: #900C3F;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-weight: bold;
+  font-size: 1.1em;
 }
 
 nav a:hover {
   text-decoration: underline;
-  color: #ff1a1a;
+  color: #c70039;
 }
 
-.arch-container {
-  position: relative;
-  margin-top: 2rem;
-  text-align: center;
-}
-
-.dental-arch {
-  max-width: 100%;
+main {
+  max-width: 900px;
+  margin: 2em auto;
+  padding: 1.5em;
+  background-color: rgba(255, 255, 255, 0.92);
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.tooth {
-  position: absolute;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  background-color: rgba(255, 0, 0, 0.4);
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
+h1 {
+  text-align: center;
+  margin-bottom: 1em;
 }
 
-.tooth:hover {
-  transform: scale(1.2);
-  background-color: rgba(255, 80, 80, 0.9);
+.img-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5em;
+  justify-items: center;
+  align-items: center;
+}
+
+.tooth-img {
+  border: 2px solid #c9c9c9;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tooth-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(144, 12, 63, 0.4);
+  border-color: #900C3F;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 2em;
 }
 
 button {
-  display: block;
-  margin: 1.2rem auto;
-  padding: 0.75rem 1.5rem;
-  font-size: 1.2rem;
-  font-family: 'Pacifico', cursive;
-  background-color: #ff3366;
+  background-color: #f08080;
   color: white;
+  padding: 0.75em 1.8em;
   border: none;
-  border-radius: 10px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-family: 'Playfair Display', cursive;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background-color: #e6004c;
+  background-color: #c70039;
   transform: scale(1.05);
 }
 
 footer {
   text-align: center;
-  font-size: 0.9rem;
-  margin-top: 2rem;
-  color: #660000;
+  padding: 1em;
+  margin-top: 2em;
+  color: #555;
+  font-size: 0.9em;
+}
+
+@media screen and (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  h1 {
+    font-size: 1.8em;
+  }
+
+  .button-container {
+    margin-top: 1.2em;
+  }
 }
