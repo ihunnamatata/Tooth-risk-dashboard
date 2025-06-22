@@ -2,37 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tooth-by-Tooth Risk Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <header>
+    <h1>Tooth-by-Tooth Risk Dashboard</h1>
+  </header>
 
   <nav>
-    <a href="../index.html">Home</a>
-    <a href="../dissertation/index.html">Dissertation</a>
-    <a href="../roadmap.html">Roadmap</a>
-    <a href="../data-analyst-projects.html">Projects</a>
-    <a href="../visualization.html">Visualizations</a>
+    <a href="/advanced-portfolio/">Home</a>
+    <a href="/advanced-portfolio/dental_ai_industry_roadmap.html">Roadmap</a>
+    <a href="/advanced-portfolio/dissertation.html">Dissertation</a>
+    <a href="https://github.com/ihunnamatata/Tooth-risk-dashboard" target="_blank">GitHub Repo</a>
   </nav>
 
-  <div class="container">
-    <h1>Tooth-by-Tooth Risk Dashboard</h1>
-    <p>Hover over each tooth to see its AI risk score. Click to get an explanation and suggested procedure.</p>
+  <main>
+    <p style="text-align:center;">Hover or click on a tooth to view its AI risk score, GPT explanation, and suggested procedures.</p>
 
     <div class="arch-container">
-      <img src="static/upper-arch.jpeg" alt="Dental Arch" class="dental-arch" />
+      <img src="static/IMG_4366.png" alt="Dental Arch" class="dental-arch">
 
-      <!-- Sample tooth zones -->
-      <div class="tooth" data-id="3" style="top: 40%; left: 12%;" data-risk="85" data-explanation="Possible large cavity detected. Suggested: Composite restoration or crown.">
+      <!-- Example clickable teeth -->
+      <div class="tooth-zone" style="top: 38%; left: 12%;" 
+        data-tooth="3" 
+        data-risk="85" 
+        data-explanation="Large carious lesion detected. GPT Suggests: Composite restoration or crown.">
       </div>
-      <div class="tooth" data-id="8" style="top: 38%; left: 50%;" data-risk="30" data-explanation="Slight demineralization. Suggested: Fluoride varnish or remineralization therapy.">
+      <div class="tooth-zone" style="top: 36%; left: 50%;" 
+        data-tooth="8" 
+        data-risk="30" 
+        data-explanation="Mild demineralization. GPT Suggests: Fluoride therapy.">
       </div>
-      <div class="tooth" data-id="14" style="top: 40%; left: 87%;" data-risk="95" data-explanation="Extensive decay. Suggested: Root canal therapy and full crown.">
+      <div class="tooth-zone" style="top: 39%; left: 85%;" 
+        data-tooth="14" 
+        data-risk="95" 
+        data-explanation="Advanced decay. GPT Suggests: Root canal and full crown.">
       </div>
     </div>
-  </div>
 
-  <script src="js/script.js"></script>
+    <div class="button-container">
+      <button onclick="generateExplanation()">🧠 GPT Explains Your Risks</button>
+      <button onclick="downloadJSON()">📁 Export to Chart (JSON)</button>
+    </div>
+
+    <div id="explanation-box" class="hidden"></div>
+  </main>
+
+  <footer>
+    &copy; 2025 Ihunna Amugo • Dental AI Dashboard Project
+  </footer>
+
+  <script>
+    const toothZones = document.querySelectorAll('.tooth-zone');
+    const explanationBox = document.getElementById('explanation-box');
+    const findings = [];
+
+    toothZones.forEach(tooth => {
+      tooth.addEventListener('click', () => {
+        const id = tooth.dataset.tooth;
+        const risk = tooth.dataset.risk;
+        const explanation = tooth.dataset.explanation;
+        explanationBox.innerHTML = `<strong>Tooth ${id}:</strong><br>Risk: ${risk}%<br>${explanation}`;
+        explanationBox.classList.remove('hidden');
+
+        // Store findings
+        const exists = findings.find(f => f.tooth === id);
+        if (!exists) findings.push({ tooth: id, risk: risk, explanation: explanation });
+      });
+    });
+
+    function generateExplanation() {
+      if (findings.length === 0) {
+        alert("Please click on a tooth to generate findings.");
+      } else {
+        alert("GPT Explanation activated!\n\n" + findings.map(f => `Tooth ${f.tooth}: ${f.explanation}`).join("\n\n"));
+      }
+    }
+
+    function downloadJSON() {
+      const blob = new Blob([JSON.stringify(findings, null, 2)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "tooth_findings.json";
+      link.click();
+    }
+  </script>
 </body>
 </html>
