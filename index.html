@@ -19,26 +19,31 @@
   </nav>
 
   <main>
-    <p style="text-align:center;">Hover or click on a tooth to view its AI risk score, GPT explanation, and suggested procedures.</p>
+    <p style="text-align:center;">Hover or click on a tooth to view its AI risk score, GPT explanation, and suggested procedure.</p>
 
     <div class="arch-container">
       <img src="static/IMG_4366.png" alt="Dental Arch" class="dental-arch">
 
-      <!-- Example clickable teeth -->
+      <!-- Tooth markers with labels -->
       <div class="tooth-zone" style="top: 38%; left: 12%;" 
         data-tooth="3" 
         data-risk="85" 
         data-explanation="Large carious lesion detected. GPT Suggests: Composite restoration or crown.">
+        <span class="tooth-label">3</span>
       </div>
+
       <div class="tooth-zone" style="top: 36%; left: 50%;" 
         data-tooth="8" 
         data-risk="30" 
         data-explanation="Mild demineralization. GPT Suggests: Fluoride therapy.">
+        <span class="tooth-label">8</span>
       </div>
+
       <div class="tooth-zone" style="top: 39%; left: 85%;" 
         data-tooth="14" 
         data-risk="95" 
         data-explanation="Advanced decay. GPT Suggests: Root canal and full crown.">
+        <span class="tooth-label">14</span>
       </div>
     </div>
 
@@ -47,7 +52,8 @@
       <button onclick="downloadJSON()">📁 Export to Chart (JSON)</button>
     </div>
 
-    <div id="explanation-box" class="hidden"></div>
+    <!-- Floating Modal -->
+    <div id="floatingModal" class="modal hidden"></div>
   </main>
 
   <footer>
@@ -56,21 +62,30 @@
 
   <script>
     const toothZones = document.querySelectorAll('.tooth-zone');
-    const explanationBox = document.getElementById('explanation-box');
+    const modal = document.getElementById('floatingModal');
     const findings = [];
 
     toothZones.forEach(tooth => {
-      tooth.addEventListener('click', () => {
+      tooth.addEventListener('click', (e) => {
         const id = tooth.dataset.tooth;
         const risk = tooth.dataset.risk;
         const explanation = tooth.dataset.explanation;
-        explanationBox.innerHTML = `<strong>Tooth ${id}:</strong><br>Risk: ${risk}%<br>${explanation}`;
-        explanationBox.classList.remove('hidden');
 
-        // Store findings
-        const exists = findings.find(f => f.tooth === id);
-        if (!exists) findings.push({ tooth: id, risk: risk, explanation: explanation });
+        modal.innerHTML = `<strong>Tooth ${id}</strong><br>Risk: ${risk}%<br>${explanation}`;
+        modal.style.left = `${e.pageX + 15}px`;
+        modal.style.top = `${e.pageY - 10}px`;
+        modal.classList.remove('hidden');
+
+        if (!findings.find(f => f.tooth === id)) {
+          findings.push({ tooth: id, risk: risk, explanation: explanation });
+        }
       });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.tooth-zone')) {
+        modal.classList.add('hidden');
+      }
     });
 
     function generateExplanation() {
