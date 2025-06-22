@@ -1,33 +1,33 @@
-const teeth = document.querySelectorAll('.tooth');
+document.addEventListener("DOMContentLoaded", () => {
+  const arch = document.querySelector(".arch-container");
 
-teeth.forEach(tooth => {
-  const toothId = tooth.getAttribute('data-id');
+  const tooltip = document.createElement("div");
+  tooltip.className = "tooltip-box";
+  arch.appendChild(tooltip);
 
-  // Hover to show tooltip
-  tooth.addEventListener('mouseenter', (e) => {
-    const score = tooth.getAttribute('data-risk');
-    const tooltip = document.createElement('div');
-    tooltip.className = 'tooltip';
-    tooltip.innerText = `Tooth ${toothId} Risk: ${score}%`;
-    document.body.appendChild(tooltip);
+  document.querySelectorAll(".tooth").forEach(tooth => {
+    tooth.addEventListener("mouseenter", (e) => {
+      const risk = tooth.getAttribute("data-risk");
+      const expl = tooth.getAttribute("data-explanation");
+      tooltip.innerHTML = `
+        <strong>Tooth #${tooth.dataset.id}</strong><br>
+        Risk Score: ${risk}%<br>
+        ${expl}
+      `;
+      tooltip.style.display = "block";
+    });
 
-    const { x, y } = e.target.getBoundingClientRect();
-    tooltip.style.top = `${y - 35}px`;
-    tooltip.style.left = `${x + 10}px`;
+    tooth.addEventListener("mousemove", (e) => {
+      tooltip.style.top = `${e.offsetY + 20}px`;
+      tooltip.style.left = `${e.offsetX + 20}px`;
+    });
 
-    tooth._tooltip = tooltip;
-  });
+    tooth.addEventListener("mouseleave", () => {
+      tooltip.style.display = "none";
+    });
 
-  tooth.addEventListener('mouseleave', () => {
-    if (tooth._tooltip) {
-      document.body.removeChild(tooth._tooltip);
-      delete tooth._tooltip;
-    }
-  });
-
-  // Click to show GPT-style explanation
-  tooth.addEventListener('click', () => {
-    const explanation = tooth.getAttribute('data-explanation');
-    alert(`Tooth ${toothId}\n\n${explanation}`);
+    tooth.addEventListener("click", () => {
+      alert(`Tooth #${tooth.dataset.id}\n\nRisk Score: ${tooth.dataset.risk}%\n${tooth.dataset.explanation}`);
+    });
   });
 });
