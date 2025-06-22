@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tooth-by-Tooth Risk Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 30px;
+    }
+
+    #dashboard {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    #dental-image {
+      position: relative;
+    }
+
+    .tooth-tooltip {
+      margin-top: 20px;
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 8px;
+      width: 300px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #43a047;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tooth-by-Tooth Risk Dashboard</h1>
+  <div id="dashboard">
+    <div id="dental-image">
+      <img src="img/static-dental-arch.png" usemap="#teeth" width="600" />
+      <map name="teeth">
+        <!-- Add more areas for each tooth -->
+        <area shape="circle" coords="100,150,20" href="#" alt="Tooth 1" onclick="showToothInfo('Tooth 1')">
+        <area shape="circle" coords="150,150,20" href="#" alt="Tooth 2" onclick="showToothInfo('Tooth 2')">
+        <area shape="circle" coords="200,150,20" href="#" alt="Tooth 3" onclick="showToothInfo('Tooth 3')">
+      </map>
+    </div>
+
+    <div class="tooth-tooltip" id="tooltip-box">
+      Click a tooth to view risk score and explanation.
+    </div>
+
+    <button onclick="generateAI()">Generate AI Findings</button>
+  </div>
+
+  <script>
+    const toothData = {
+      "Tooth 1": { risk: 0, explanation: "" },
+      "Tooth 2": { risk: 0, explanation: "" },
+      "Tooth 3": { risk: 0, explanation: "" }
+    };
+
+    function showToothInfo(tooth) {
+      const { risk, explanation } = toothData[tooth];
+      const tooltip = document.getElementById("tooltip-box");
+      tooltip.innerHTML = `
+        <strong>${tooth}</strong><br>
+        Risk Score: <strong>${risk}%</strong><br>
+        ${explanation || 'No findings yet. Click "Generate AI Findings".'}
+      `;
+    }
+
+    function generateAI() {
+      for (let key in toothData) {
+        const risk = Math.floor(Math.random() * 100);
+        const explanation = `AI detected possible plaque accumulation and minor gingival inflammation. Monitoring advised.`;
+        toothData[key] = { risk, explanation };
+      }
+      alert("AI Findings Generated! Click a tooth.");
+    }
+  </script>
+</body>
+</html>
