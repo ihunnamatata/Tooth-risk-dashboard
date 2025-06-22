@@ -5,7 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tooth-by-Tooth Risk Dashboard</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2b2d42;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2em;
+      background-color: #8d99ae;
+      padding: 0.5em;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2em auto;
+      padding: 1em;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1em;
+    }
+
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2em;
+      justify-items: center;
+      align-items: center;
+    }
+
+    .tooth-img {
+      border: 3px solid #ccc;
+      border-radius: 8px;
+      padding: 5px;
+      background-color: #fff;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 0px rgba(0,0,0,0.1);
+    }
+
+    .tooth-img:hover {
+      transform: scale(1.03);
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 2em;
+    }
+
+    button {
+      background-color: #ef233c;
+      color: white;
+      padding: 0.8em 1.5em;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #d90429;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1em;
+      margin-top: 2em;
+      color: #555;
+    }
+  </style>
 </head>
+
 <body>
   <header>
     <h1>Tooth-by-Tooth Risk Dashboard</h1>
@@ -19,81 +114,57 @@
   </nav>
 
   <main>
-  <p style="text-align:center;">Hover over a tooth to see AI findings.</p>
+    <p style="text-align:center;">Explore AI-generated findings by dental arch. Hover to examine each image. Press the button to simulate findings.</p>
 
-  <div class="arch-container" style="position: relative; max-width: 800px; margin: 0 auto;">
-    <img src="static/IMG_4366.png" alt="Dental Arch" class="dental-arch" style="width:100%; border-radius: 12px;">
+    <div class="img-grid" id="toothGrid">
+      <div class="tooth-img" data-id="11" title="Frontal View (Full Arch)">
+        <img src="static/IMG_4366.png" alt="Frontal Arch" width="280">
+      </div>
+      <div class="tooth-img" data-id="21" title="Upper Arch">
+        <img src="static/IMG_4365.png" alt="Upper Arch" width="280">
+      </div>
+      <div class="tooth-img" data-id="31" title="Lower Arch">
+        <img src="static/IMG_4363.png" alt="Lower Arch" width="280">
+      </div>
+    </div>
 
-    <!-- Dynamic tooth zones will be injected here -->
-  </div>
+    <div class="button-container">
+      <button onclick="generateAI()">Generate AI Findings</button>
+    </div>
+  </main>
 
-  <div class="button-container">
-    <button onclick="generateExplanation()">🧠 GPT Explains Your Risks</button>
-    <button onclick="downloadJSON()">📁 Export to Chart (JSON)</button>
-  </div>
+  <footer>
+    &copy; 2025 Ihunna Amugo • Dental AI Dashboard Project
+  </footer>
 
-  <div id="floatingModal" class="modal hidden"></div>
-</main>
-
-<script>
-  const teeth = [
-    { id: 3, top: '38%', left: '12%', risk: 85, explanation: 'Large carious lesion detected. Suggested: Composite restoration or crown.' },
-    { id: 8, top: '36%', left: '50%', risk: 30, explanation: 'Mild demineralization. Suggested: Fluoride therapy.' },
-    { id: 14, top: '39%', left: '85%', risk: 95, explanation: 'Advanced decay. Suggested: Root canal and full crown.' },
-  ];
-
-  const container = document.querySelector('.arch-container');
-  const modal = document.getElementById('floatingModal');
-  const findings = [];
-
-  // Create tooth elements dynamically
-  teeth.forEach(tooth => {
-    const div = document.createElement('div');
-    div.className = 'tooth-zone';
-    div.style.top = tooth.top;
-    div.style.left = tooth.left;
-    div.dataset.tooth = tooth.id;
-    div.dataset.risk = tooth.risk;
-    div.dataset.explanation = tooth.explanation;
-    div.innerHTML = `<span class="tooth-label">${tooth.id}</span>`;
-    container.appendChild(div);
-
-    // Hover to show modal
-    div.addEventListener('mousemove', (e) => {
-      modal.innerHTML = `<strong>Tooth ${tooth.id}</strong><br>Risk: ${tooth.risk}%<br>${tooth.explanation}`;
-      modal.style.left = `${e.pageX + 10}px`;
-      modal.style.top = `${e.pageY + 10}px`;
-      modal.classList.remove('hidden');
-    });
-
-    // Exit hover
-    div.addEventListener('mouseleave', () => {
-      modal.classList.add('hidden');
-    });
-
-    // Track clicked teeth
-    div.addEventListener('click', () => {
-      if (!findings.find(f => f.tooth === tooth.id)) {
-        findings.push({ tooth: tooth.id, risk: tooth.risk, explanation: tooth.explanation });
-      }
-    });
-  });
-
-  function generateExplanation() {
-    if (findings.length === 0) {
-      alert("Click on teeth to track them first.");
-    } else {
-      alert("GPT Findings:\n\n" + findings.map(f => `Tooth ${f.tooth}: ${f.explanation}`).join("\n\n"));
+  <script>
+    function getRandomRisk() {
+      return Math.floor(Math.random() * 101);
     }
-  }
 
-  function downloadJSON() {
-    const blob = new Blob([JSON.stringify(findings, null, 2)], { type: "application/json" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "tooth_findings.json";
-    link.click();
-  }
-</script>
+    function generateExplanation(risk) {
+      if (risk >= 80) return "High risk of decay. Consider restoration.";
+      if (risk >= 40) return "Moderate risk. Recommend fluoride therapy.";
+      return "Low risk. Maintain hygiene.";
+    }
+
+    function generateAI() {
+      const teeth = document.querySelectorAll('.tooth-img');
+      teeth.forEach((tooth) => {
+        const risk = getRandomRisk();
+        const explanation = generateExplanation(risk);
+
+        // Tooltip
+        tooth.title = `Tooth ${tooth.dataset.id}\nRisk: ${risk}%\n${explanation}`;
+
+        // Color styling
+        tooth.style.borderColor =
+          risk >= 80 ? '#e63946' : risk >= 40 ? '#ffba08' : '#38b000';
+
+        tooth.style.boxShadow =
+          `0 0 12px ${risk >= 80 ? '#e63946' : risk >= 40 ? '#ffba08' : '#38b000'}`;
+      });
+    }
+  </script>
 </body>
 </html>
