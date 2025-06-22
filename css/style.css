@@ -1,110 +1,107 @@
-
 body {
-  font-family: 'Playfair Display', serif;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f9f9f9;
   margin: 0;
-  background: #f3f3f3;
-  color: #333;
+  padding: 0;
+}
+
+header {
+  background-color: #2b2d42;
+  color: white;
+  padding: 1em;
+  text-align: center;
 }
 
 nav {
-  background-color: #dcd0ff;
-  text-align: center;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  background-color: #8d99ae;
+  padding: 0.5em;
 }
 
 nav a {
-  margin: 0 12px;
+  color: white;
   text-decoration: none;
   font-weight: bold;
-  color: #4a4a4a;
-  padding: 8px 14px;
-  background-color: #f7f2ff;
-  border-radius: 6px;
-  transition: background 0.3s ease;
 }
 
 nav a:hover {
-  background-color: #e6dbff;
+  text-decoration: underline;
 }
 
-.container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
+main {
+  max-width: 1000px;
+  margin: 2em auto;
+  padding: 1em;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .arch-container {
   position: relative;
-  margin-top: 30px;
+  text-align: center;
+  margin-top: 2em;
 }
 
 .dental-arch {
   width: 100%;
   max-width: 800px;
-  border-radius: 10px;
-}
-
-.tooth {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background: rgba(255, 0, 0, 0.6);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.2s;
-  border: 2px solid #fff;
-}
-
-.tooth:hover {
-  transform: scale(1.2);
-  z-index: 10;
-}
-
-.tooltip-box {
-  position: absolute;
-  background: #fff;
-  color: #000;
-  padding: 12px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  white-space: nowrap;
-  font-size: 0.9em;
-  z-index: 99;
+}
+
+.tooth-zone {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(239, 35, 60, 0.7);
+  border: 2px solid white;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.tooth-zone:hover {
+  background: rgba(239, 35, 60, 1);
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 2em;
+}
+
+button {
+  margin: 0.5em;
+  background-color: #ef233c;
+  color: white;
+  padding: 0.8em 1.5em;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #d90429;
+}
+
+#explanation-box {
+  margin-top: 1.5em;
+  text-align: center;
+  padding: 1em;
+  border: 1px solid #ccc;
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.hidden {
   display: none;
 }
-.dashboard-buttons {
-  margin-top: 20px;
+
+footer {
   text-align: center;
-}
-
-.dashboard-buttons button {
-  margin: 0 10px;
-  padding: 10px 18px;
-  border: none;
-  background-color: #333;
-  color: white;
-  border-radius: 6px;
-  font-size: 0.95em;
-  cursor: pointer;
-}
-
-.dashboard-buttons button:hover {
-  background-color: #555;
-}
-
-.gpt-output {
-  margin-top: 20px;
-  padding: 15px;
-  background: #ffffffcc;
-  color: #111;
-  border-radius: 8px;
-  text-align: left;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 1em;
+  margin-top: 2em;
+  color: #555;
 }
