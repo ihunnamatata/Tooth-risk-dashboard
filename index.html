@@ -82,6 +82,7 @@
       background-color: #ef233c;
       color: white;
       padding: 0.8em 1.5em;
+      margin: 0.5em;
       border: none;
       border-radius: 5px;
       font-size: 1rem;
@@ -90,6 +91,21 @@
 
     button:hover {
       background-color: #d90429;
+    }
+
+    #modal {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: black;
+      padding: 20px;
+      border: 2px solid #2b2d42;
+      border-radius: 10px;
+      z-index: 999;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
     footer {
@@ -130,14 +146,24 @@
 
     <div class="button-container">
       <button onclick="generateAI()">Generate AI Findings</button>
+      <button onclick="showGPTExplanation()">GPT Explains Your Risk</button>
+      <button onclick="exportToChart()">Export to Chart (JSON)</button>
     </div>
   </main>
+
+  <div id="modal">
+    <h3>GPT Explanation</h3>
+    <p id="modal-text">High risk detected in multiple regions. Patient education and further diagnostics recommended.</p>
+    <button onclick="closeModal()">Close</button>
+  </div>
 
   <footer>
     &copy; 2025 Ihunna Amugo • Dental AI Dashboard Project
   </footer>
 
   <script>
+    let currentFindings = [];
+
     function getRandomRisk() {
       return Math.floor(Math.random() * 101);
     }
@@ -149,21 +175,44 @@
     }
 
     function generateAI() {
+      currentFindings = [];
       const teeth = document.querySelectorAll('.tooth-img');
       teeth.forEach((tooth) => {
         const risk = getRandomRisk();
         const explanation = generateExplanation(risk);
 
-        // Tooltip
-        tooth.title = `Tooth ${tooth.dataset.id}\nRisk: ${risk}%\n${explanation}`;
+        const id = tooth.dataset.id;
+        tooth.title = `Tooth ${id}\nRisk: ${risk}%\n${explanation}`;
+        tooth.style.borderColor = risk >= 80 ? '#e63946' : risk >= 40 ? '#ffba08' : '#38b000';
+        tooth.style.boxShadow = `0 0 12px ${risk >= 80 ? '#e63946' : risk >= 40 ? '#ffba08' : '#38b000'}`;
 
-        // Color styling
-        tooth.style.borderColor =
-          risk >= 80 ? '#e63946' : risk >= 40 ? '#ffba08' : '#38b000';
-
-        tooth.style.boxShadow =
-          `0 0 12px ${risk >= 80 ? '#e63946' : risk >= 40 ? '#ffba08' : '#38b000'}`;
+        currentFindings.push({
+          tooth_id: id,
+          risk: risk,
+          explanation: explanation
+        });
       });
+    }
+
+    function exportToChart() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentFindings, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", "tooth_ai_findings.json");
+      dlAnchor.click();
+    }
+
+    function showGPTExplanation() {
+      const highRisk = currentFindings.filter(t => t.risk >= 80).length;
+      const message = highRisk > 0
+        ? "GPT recommends restoration and further diagnostics for multiple high-risk teeth."
+        : "GPT indicates minimal intervention needed. Maintain routine care.";
+      document.getElementById("modal-text").innerText = message;
+      document.getElementById("modal").style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = 'none';
     }
   </script>
 </body>
