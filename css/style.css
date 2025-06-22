@@ -74,7 +74,8 @@ h1 {
   border-color: #900C3F;
 }
 
-.button-container {
+.button-container,
+.dashboard-buttons {
   text-align: center;
   margin-top: 2em;
 }
@@ -94,6 +95,37 @@ button {
 button:hover {
   background-color: #c70039;
   transform: scale(1.05);
+}
+
+.tooth {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(255, 105, 135, 0.7);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 5px rgba(255, 182, 193, 0.5);
+}
+
+.tooth:hover {
+  transform: scale(1.25);
+  background-color: rgba(199, 0, 57, 0.9);
+  box-shadow: 0 0 10px rgba(255, 105, 135, 0.7);
+}
+
+.gpt-output {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff5f5;
+  color: #4a0000;
+  border-left: 5px solid #c70039;
+  border-radius: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Playfair Display', cursive;
 }
 
 footer {
@@ -117,21 +149,9 @@ footer {
   .button-container {
     margin-top: 1.2em;
   }
-}
-.tooth {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-color: rgba(255, 105, 135, 0.7);
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid white;
-  transition: all 0.25s ease;
-  box-shadow: 0 0 5px rgba(255, 182, 193, 0.5);
-}
 
-.tooth:hover {
-  transform: scale(1.25);
-  background-color: rgba(199, 0, 57, 0.9);
-  box-shadow: 0 0 10px rgba(255, 105, 135, 0.7);
+  .tooth {
+    width: 24px;
+    height: 24px;
+  }
 }
