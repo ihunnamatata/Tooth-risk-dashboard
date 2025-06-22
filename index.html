@@ -2,41 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tooth-by-Tooth Risk Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <h1> Tooth-by-Tooth Risk Dashboard</h1>
-    <p>Click on any tooth to view its risk and suggested dental procedures.</p>
-  </header>
 
-  <main>
-    <div class="dashboard">
-      <div class="image-container">
-        <img src="static/IMG_4365.png" usemap="#toothmap" alt="Upper Dental Arch" class="dental-image"/>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../dissertation/index.html">Dissertation</a>
+    <a href="../roadmap.html">Roadmap</a>
+    <a href="../data-analyst-projects.html">Projects</a>
+    <a href="../visualization.html">Visualizations</a>
+  </nav>
 
-        <map name="toothmap">
-          <!-- Example mapped teeth (can be expanded with real coords) -->
-          <area shape="circle" coords="170,160,15" alt="Tooth 8" href="#" data-tooth="8">
-          <area shape="circle" coords="130,160,15" alt="Tooth 9" href="#" data-tooth="9">
-          <area shape="circle" coords="90,160,15" alt="Tooth 10" href="#" data-tooth="10">
-          <area shape="circle" coords="210,160,15" alt="Tooth 7" href="#" data-tooth="7">
-          <!-- Add more teeth as needed -->
-        </map>
+  <div class="container">
+    <h1>Tooth-by-Tooth Risk Dashboard</h1>
+    <p>Hover over each tooth to see its AI risk score. Click to get an explanation and suggested procedure.</p>
+
+    <div class="arch-container">
+      <img src="img/upper-arch.jpeg" alt="Dental Arch" class="dental-arch" />
+
+      <!-- Sample tooth zones -->
+      <div class="tooth" data-id="3" style="top: 40%; left: 12%;" data-risk="85" data-explanation="Possible large cavity detected. Suggested: Composite restoration or crown.">
       </div>
-
-      <div class="info-panel" id="info-panel">
-        <h2>Select a Tooth</h2>
-        <p>Hover over or click on a tooth to see its details.</p>
+      <div class="tooth" data-id="8" style="top: 38%; left: 50%;" data-risk="30" data-explanation="Slight demineralization. Suggested: Fluoride varnish or remineralization therapy.">
+      </div>
+      <div class="tooth" data-id="14" style="top: 40%; left: 87%;" data-risk="95" data-explanation="Extensive decay. Suggested: Root canal therapy and full crown.">
       </div>
     </div>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Ihunna Amugo · AI Dental Risk Research</p>
-  </footer>
+  </div>
 
   <script src="js/script.js"></script>
 </body>
