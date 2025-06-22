@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tooth-by-Tooth Risk Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1> Tooth-by-Tooth Risk Dashboard</h1>
+    <p>Click on any tooth to view its risk and suggested dental procedures.</p>
+  </header>
+
+  <main>
+    <div class="dashboard">
+      <div class="image-container">
+        <img src="static/IMG_4365.png" usemap="#toothmap" alt="Upper Dental Arch" class="dental-image"/>
+
+        <map name="toothmap">
+          <!-- Example mapped teeth (can be expanded with real coords) -->
+          <area shape="circle" coords="170,160,15" alt="Tooth 8" href="#" data-tooth="8">
+          <area shape="circle" coords="130,160,15" alt="Tooth 9" href="#" data-tooth="9">
+          <area shape="circle" coords="90,160,15" alt="Tooth 10" href="#" data-tooth="10">
+          <area shape="circle" coords="210,160,15" alt="Tooth 7" href="#" data-tooth="7">
+          <!-- Add more teeth as needed -->
+        </map>
+      </div>
+
+      <div class="info-panel" id="info-panel">
+        <h2>Select a Tooth</h2>
+        <p>Hover over or click on a tooth to see its details.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Ihunna Amugo · AI Dental Risk Research</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
